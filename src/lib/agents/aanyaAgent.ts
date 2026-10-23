@@ -239,7 +239,7 @@ export const aanyaAgent: AgentConfig = {
   id: 'aanya-website',
   name: 'Aanya',
   role: 'Loan Assistance Executive (Website, All Visitors)',
-  channel: 'Web VoiceRTC Widget (swipeloan.in)',
+  channel: 'Web VoiceRTC Widget (ai.swipeloan.in)',
   voiceName: 'Aoede',
   avatarUrl: 'https://swipeloan.in/wp-content/uploads/2024/04/swipefund_logo.png',
   accentColor: '#10B981',

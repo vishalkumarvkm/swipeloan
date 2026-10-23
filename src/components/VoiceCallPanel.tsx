@@ -409,7 +409,7 @@ export default function VoiceCallPanel({ isOpen, onClose, agent }: VoiceCallPane
               sessionRef.current = session;
 
               const activeLead = crmStore.getState().activeLead;
-              const greetingPrompt = `User joined swipeloan.in web voice widget. Introduce yourself as ${agent.name}, Loan Assistance Executive. Opening greeting: "${agent.greeting}". Speak in natural Hindi/Hinglish/English.`;
+              const greetingPrompt = `User joined ai.swipeloan.in web voice widget. Introduce yourself as ${agent.name}, Loan Assistance Executive. Opening greeting: "${agent.greeting}". Speak in natural Hindi/Hinglish/English.`;
 
               try {
                 session.sendRealtimeInput({ text: greetingPrompt });

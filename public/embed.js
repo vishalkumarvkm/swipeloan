@@ -2,10 +2,10 @@
  * SwipeLoan Aanya Voice Agent - Client Embed Script
  * 
  * Usage on any client website:
- * <script src="https://YOUR_SERVER_URL/embed.js" async></script>
+ * <script src="https://ai.swipeloan.in/embed.js" async></script>
  * 
  * Optional Configuration Attributes:
- * - data-server="https://custom-domain.com"
+ * - data-server="https://ai.swipeloan.in"
  * - data-position="bottom-right" | "bottom-left"
  * - data-label="Talk to Aanya"
  * - data-color="#10B981"
@@ -32,10 +32,15 @@
   var scriptUrl = currentScript && currentScript.src ? currentScript.src : window.location.href;
   var defaultOrigin = (function() {
     try {
-      var u = new URL(scriptUrl);
-      return u.origin;
+      if (currentScript && currentScript.src) {
+        var u = new URL(currentScript.src);
+        if (u.origin && u.origin !== 'null' && !u.origin.includes('localhost') && !u.origin.includes('127.0.0.1')) {
+          return u.origin;
+        }
+      }
+      return 'https://ai.swipeloan.in';
     } catch (_) {
-      return window.location.origin;
+      return 'https://ai.swipeloan.in';
     }
   })();
 

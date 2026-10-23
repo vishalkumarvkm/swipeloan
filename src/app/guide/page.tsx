@@ -21,12 +21,19 @@ import {
 export default function IntegrationGuidePage() {
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
-  // Fallback domain in case window is not available initially
-  const [origin, setOrigin] = React.useState('https://YOUR_DOMAIN');
+  // Base domain for integration guides & endpoints (defaults to ai.swipeloan.in)
+  const [origin, setOrigin] = React.useState('https://ai.swipeloan.in');
 
   React.useEffect(() => {
     if (typeof window !== 'undefined') {
-      setOrigin(window.location.origin);
+      const envBase = process.env.NEXT_PUBLIC_BASE_URL;
+      if (envBase) {
+        setOrigin(envBase.replace(/\/+$/, ''));
+      } else if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        setOrigin(window.location.origin);
+      } else {
+        setOrigin('https://ai.swipeloan.in');
+      }
     }
   }, []);
 
