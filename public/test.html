@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SwipeLoan Aanya Voice Agent — Embed Test Page</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 40px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      max-width: 760px;
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      margin-bottom: 12px;
+    }
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    p.desc {
+      font-size: 14px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .status-card {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 24px;
+      font-family: monospace;
+      font-size: 13px;
+    }
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .status-row:last-child { margin-bottom: 0; }
+    .status-label { color: #64748b; }
+    .status-val { font-weight: bold; color: #0f172a; }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    button.test-btn {
+      background: #10b981;
+      color: #ffffff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.test-btn:hover { background: #059669; }
+    button.test-btn.secondary {
+      background: #e2e8f0;
+      color: #1e293b;
+    }
+    button.test-btn.secondary:hover { background: #cbd5e1; }
+    .checklist {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 20px;
+    }
+    .checklist h3 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #334155;
+    }
+    .checklist li {
+      font-size: 13px;
+      color: #475569;
+      margin-bottom: 8px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checklist li::before {
+      content: "✓";
+      color: #10b981;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="badge">Live Embed Verification</span>
+    <h1>SwipeLoan Aanya Embed Test Page</h1>
+    <p class="desc">
+      This page loads <code>/embed.js</code> to verify that the floating widget, WhatsApp notification bubble, and audio connection initialize correctly.
+    </p>
+
+    <div class="status-card">
+      <div class="status-row">
+        <span class="status-label">Script Status:</span>
+        <span id="script-status" class="status-val" style="color: #ea580c;">Checking...</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Active Server URL:</span>
+        <span id="server-url" class="status-val">-</span>
+      </div>
+      <div class="status-row">
+        <span class="status-label">Widget State:</span>
+        <span id="widget-state" class="status-val">Closed</span>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="test-btn" onclick="testOpen()">Test Open Widget</button>
+      <button class="test-btn secondary" onclick="testClose()">Test Close Widget</button>
+      <button class="test-btn secondary" onclick="checkStatus()">Refresh Status</button>
+    </div>
+
+    <div class="checklist">
+      <h3>What to look for:</h3>
+      <ul>
+        <li>Floating green launcher button in the bottom-right corner.</li>
+        <li>Rotating notification popup bubble (e.g. <em>"Aapko personal ya business loan chahiye?"</em>).</li>
+        <li>Clicking the launcher opens the voice assistant dialog smoothly.</li>
+        <li>Clicking outside or the close icon returns to the launcher button.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SCRIPT EMBED TEST -->
+  <script src="/embed.js" async></script>
+
+  <script>
+    function checkStatus() {
+      if (window.SwipeLoanAanya) {
+        document.getElementById('script-status').innerText = 'Ready & Active (window.SwipeLoanAanya loaded)';
+        document.getElementById('script-status').style.color = '#059669';
+        document.getElementById('server-url').innerText = window.SwipeLoanAanya.server || 'Default';
+        document.getElementById('widget-state').innerText = window.SwipeLoanAanya.isOpen() ? 'Open (Live)' : 'Closed (Floating)';
+      } else {
+        document.getElementById('script-status').innerText = 'Waiting for embed.js to load...';
+        document.getElementById('script-status').style.color = '#ea580c';
+      }
+    }
+
+    function testOpen() {
+      if (window.SwipeLoanAanya) {
+        window.SwipeLoanAanya.open();
+        setTimeout(checkStatus, 200);
+      } else {
+        alert('SwipeLoanAanya script not loaded yet!');
+      }
+    }
+
+    function testClose() {
+      if (window.SwipeLoanAanya) {
+        window.SwipeLoanAanya.close();
+        setTimeout(checkStatus, 200);
+      }
+    }
+
+    window.addEventListener('load', function() {
+      setTimeout(checkStatus, 600);
+    });
+    setInterval(checkStatus, 1500);
+  </script>
+</body>
+</html>

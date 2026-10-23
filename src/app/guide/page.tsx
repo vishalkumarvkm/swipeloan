@@ -193,14 +193,24 @@ if (window.SwipeLoanAanya.isOpen()) {
                     </>
                   )}
                 </button>
-                <a
-                  href={`${origin}/embed.js`}
-                  target="_blank"
-                  className="text-xs text-slate-500 hover:text-slate-900 font-semibold flex items-center gap-1"
-                >
-                  <span>View</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
+                <div className="flex items-center gap-2">
+                  <a
+                    href="/test.html"
+                    target="_blank"
+                    className="text-xs text-emerald-700 hover:text-emerald-800 font-bold flex items-center gap-1 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 transition-colors"
+                  >
+                    <span>Test Widget</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                  <a
+                    href={`${origin}/embed.js`}
+                    target="_blank"
+                    className="text-xs text-slate-500 hover:text-slate-900 font-semibold flex items-center gap-1"
+                  >
+                    <span>Code</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
               </div>
             </div>
 
