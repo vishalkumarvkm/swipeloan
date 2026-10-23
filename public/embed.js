@@ -29,29 +29,34 @@
     return scripts[scripts.length - 1];
   })();
 
-  var scriptUrl = currentScript && currentScript.src ? currentScript.src : window.location.href;
-  var defaultOrigin = (function() {
+  // Base server URL (defaults to production https://ai.swipeloan.in)
+  var DEFAULT_SERVER = 'https://ai.swipeloan.in';
+
+  // Resolve server domain
+  var serverUrl = (function() {
+    if (currentScript && currentScript.getAttribute('data-server')) {
+      return currentScript.getAttribute('data-server');
+    }
     try {
       if (currentScript && currentScript.src) {
         var u = new URL(currentScript.src);
-        if (u.origin && u.origin !== 'null' && !u.origin.includes('localhost') && !u.origin.includes('127.0.0.1')) {
+        if (u.hostname === 'localhost' || u.hostname === '127.0.0.1') {
           return u.origin;
         }
       }
-      return 'https://ai.swipeloan.in';
-    } catch (_) {
-      return 'https://ai.swipeloan.in';
-    }
+    } catch (_) {}
+    return DEFAULT_SERVER;
   })();
 
   var config = {
-    server: (currentScript && currentScript.getAttribute('data-server')) || defaultOrigin,
+    server: serverUrl,
     position: (currentScript && currentScript.getAttribute('data-position')) || 'bottom-right',
     theme: (currentScript && currentScript.getAttribute('data-theme')) || 'dark',
     label: (currentScript && currentScript.getAttribute('data-label')) || 'Talk to Aanya',
     subtitle: (currentScript && currentScript.getAttribute('data-subtitle')) || 'AI Loan Assistant',
     accentColor: (currentScript && currentScript.getAttribute('data-color')) || '#10B981',
-    autoOpen: currentScript && currentScript.getAttribute('data-auto-open') === 'true'
+    autoOpen: currentScript && currentScript.getAttribute('data-auto-open') === 'true',
+    avatar: (currentScript && currentScript.getAttribute('data-avatar')) || (serverUrl.replace(/\/+$/, "") + "/swipefund_logo.png")
   };
 
   // Inject Stylesheet
@@ -346,7 +351,7 @@
   launcherBtn.setAttribute('aria-label', config.label);
   launcherBtn.innerHTML = [
     '<div class="swipeloan-avatar-wrap">',
-    '  <img class="swipeloan-avatar-img" src="https://swipeloan.in/wp-content/uploads/2024/04/swipefund_logo.png" alt="SwipeLoan" />',
+    '  <img class="swipeloan-avatar-img" src="' + config.avatar + '" alt="SwipeLoan" onerror="this.src=\'https://swipeloan.in/wp-content/uploads/2024/04/swipefund_logo.png\'" />',
     '  <span class="swipeloan-online-dot"></span>',
     '</div>',
     '<div class="swipeloan-text-wrap">',
@@ -529,6 +534,8 @@
   window.SwipeLoanAanya = {
     open: openWidget,
     close: closeWidget,
-    isOpen: function() { return isOpen; }
+    isOpen: function() { return isOpen; },
+    server: config.server,
+    config: config
   };
 })();
